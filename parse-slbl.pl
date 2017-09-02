@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-use Switch;
-
 my $infh;
 if ($ARGV[0]) {
 	open ($infh, '<:encoding(UTF-8)', $ARGV[0]) || die "Could not open ".$ARGV[0].".";	
@@ -53,26 +51,24 @@ close $infh;
 
 foreach my $i (0.. scalar @{$output_files}) {
 	open (my $outfh, '>:encoding(UTF-8)', $output_files->[$i]) || die "Could not open ". $output_files->[$i] ." for writing.";
-	switch ($i) {
-		case 0 {
-			for my $list (keys %$domain_lists) {
-				for my $domain (keys %{$domain_lists->{$list}}) {
-					for my $email (@{$domain_lists->{$list}->{$domain}}) {
-						print $outfh "$list, $domain, $email\n";
-					}
+	if ($i eq 0) {
+		for my $list (keys %$domain_lists) {
+			for my $domain (keys %{$domain_lists->{$list}}) {
+				for my $email (@{$domain_lists->{$list}->{$domain}}) {
+					print $outfh "$list, $domain, $email\n";
 				}
 			}
 		}
-		case 1 {
-			for my $list (keys %$full_addrs_list) {
-				for my $domain (keys %{$full_addrs_list->{$list}}) {
-					for my $email (@{$full_addrs_list->{$list}->{$domain}}) {
-						print $outfh "$list, $domain, $email\n";
-					}
+	}
+	if ($i eq 1) {
+		for my $list (keys %$full_addrs_list) {
+			for my $domain (keys %{$full_addrs_list->{$list}}) {
+				for my $email (@{$full_addrs_list->{$list}->{$domain}}) {
+					print $outfh "$list, $domain, $email\n";
 				}
 			}
 		}
-	};
+	}
 	close $outfh;
 }
 
