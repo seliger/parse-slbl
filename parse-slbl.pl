@@ -26,7 +26,7 @@ while (my $row = <$infh>) {
 	# Filter out comments, spaces, and line endings.
 	$row =~ s/\#.*//g;
 	$row =~ s/ //g;
-	$row =~ s/\r\n//g;
+	$row =~ s/\r\n|\n|\r//g;
 
 	if (length($row) > 1) {
 		# Parse out the individual fields for a given line in the file.
